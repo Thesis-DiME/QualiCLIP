@@ -1,2 +1,2 @@
 device: cuda
-metadata_path: /home/dmitrii/code/general-pipeline/submodules/DiffusionEngine/output/sd1.5/2025-05-29_20-56-50/metadata.json
+metadata_path: /home/dmitrii/code/general-pipeline/submodules/DiffusionEngine/data/generated_images/sd1.5/2025-05-30_18-02-28/metadata.json

@@ -6,6 +6,8 @@ from omegaconf import DictConfig
 from pathlib import Path
 import json
 import csv
+from hydra.utils import get_original_cwd
+import os
 
 
 @hydra.main(config_path="conf", config_name="config")
@@ -28,7 +30,7 @@ def main(cfg: DictConfig):
     )
 
     metadata_path = Path(cfg.metadata_path)
-    base_dir = metadata_path.parent
+    base_dir = Path(get_original_cwd())
 
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
@@ -36,22 +38,19 @@ def main(cfg: DictConfig):
     results = []
     for entry in metadata:
         rel_img_path = entry["img_path"]
-        abs_img_path = base_dir / rel_img_path
+        img_path = metadata_path.parent / rel_img_path
 
-        if not abs_img_path.exists():
-            print(f"[!] Image not found: {abs_img_path}")
-            continue
-
-        img = Image.open(abs_img_path).convert("RGB")
+        img = Image.open(img_path).convert("RGB")
         img_tensor = preprocess(img).unsqueeze(0).to(device)
 
-        with torch.no_grad(), torch.cuda.amp.autocast():
+        with torch.no_grad():
             score = model(img_tensor)
 
         results.append((str(rel_img_path), float(score.item())))
 
     # Write to CSV
-    output_csv_path = base_dir / "results.csv"
+    os.makedirs(os.path.join(base_dir, 'results'), exist_ok=True)
+    output_csv_path = base_dir / 'results' / "quali_clip_metric.csv"
     with open(output_csv_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["file_path", "quali_clip_score"])
