@@ -7,7 +7,8 @@ from tqdm import tqdm
 import torch
 import hydra
 from omegaconf import DictConfig
-# from submodules.QualiClip.metric import 
+# from submodules.QualiClip.metric import
+
 
 def load_csv_as_dict_list(file_path):
     dict_list = []
@@ -32,7 +33,8 @@ def load_data(file_path, file_type):
         return load_json_as_dict_list(file_path)
     else:
         raise ValueError("Unsupported file type. Please use 'csv' or 'json'.")
-    
+
+
 class QualiCLIPPipeline:
     def __init__(self, cfg: DictConfig):
         """
@@ -112,9 +114,7 @@ class QualiCLIPPipeline:
             fieldnames.extend(new_columns)
         else:
             existing_data = flattened_results
-            fieldnames = (
-                list(flattened_results[0].keys()) if flattened_results else []
-            )
+            fieldnames = list(flattened_results[0].keys()) if flattened_results else []
 
         # Write updated data to CSV
         with open(self.cfg.csv_path, "w", newline="", encoding="utf-8") as f:
