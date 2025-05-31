@@ -8,6 +8,7 @@ import json
 import csv
 from hydra.utils import get_original_cwd
 import os
+import time
 
 
 @hydra.main(config_path="conf", config_name="config")
@@ -49,8 +50,8 @@ def main(cfg: DictConfig):
         results.append((str(rel_img_path), float(score.item())))
 
     # Write to CSV
-    os.makedirs(os.path.join(base_dir, 'results/individual'), exist_ok=True)
-    output_csv_path = base_dir / 'results/individual' / "quali_clip_metric.csv"
+    os.makedirs(os.path.join(base_dir, "results/individual"), exist_ok=True)
+    output_csv_path = base_dir / "results/individual" / "quali_clip_metric.csv"
     with open(output_csv_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["file_path", "quali_clip_score"])
@@ -58,4 +59,6 @@ def main(cfg: DictConfig):
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main()
+    print(f"QUALI CLIP TIME: {time.time() - start_time}")
