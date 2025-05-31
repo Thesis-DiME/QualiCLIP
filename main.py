@@ -49,8 +49,8 @@ def main(cfg: DictConfig):
         results.append((str(rel_img_path), float(score.item())))
 
     # Write to CSV
-    os.makedirs(os.path.join(base_dir, 'results'), exist_ok=True)
-    output_csv_path = base_dir / 'results' / "quali_clip_metric.csv"
+    os.makedirs(os.path.join(base_dir, 'results/individual'), exist_ok=True)
+    output_csv_path = base_dir / 'results/individual' / "quali_clip_metric.csv"
     with open(output_csv_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["file_path", "quali_clip_score"])
