@@ -16,3 +16,5 @@ umap-learn==0.5.5
 torchmetrics==1.7.0
 hydra-core==1.3.2
 omegaconf==2.3.0
+torchvision
+torchmetrics[image]
