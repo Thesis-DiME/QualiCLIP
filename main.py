@@ -59,6 +59,9 @@ def main(cfg: DictConfig):
 
 
 if __name__ == "__main__":
+    base_dir = Path(get_original_cwd())
     start_time = time.time()
     main()
-    print(f"QUALI CLIP TIME: {time.time() - start_time}")
+    end_time = time.time() - start_time
+    with open(base_dir / "results/individual" / 'quali_clip.txt', 'w') as f:
+        f.write(f"TIME: {end_time}")
